@@ -1,0 +1,57 @@
+
+$errorMSG = "";
+
+
+/* $name_first */
+if (empty($_POST["name_first"])) {
+    $errorMSG = "<li>Name is required</li>";
+} else {
+    $name_first = $_POST["name_first"];
+}
+
+
+echo '<pre>';
+var_dump($name_first);
+echo '</pre>';
+
+
+/* $name_second */
+if (empty($_POST["name_second"])) {
+    $errorMSG = "<li>Name is required</li>";
+} else {
+    $name_second = $_POST["name_second"];
+}
+
+/* age SUBJECT */
+if (empty($_POST["age"])) {
+    $errorMSG .= "<li>Subject is required</li>";
+} else {
+    $age = $_POST["age"];
+}
+
+/* age SUBJECT */
+if (empty($_POST["phone_number"])) {
+    $errorMSG .= "<li>Subject is required</li>";
+} else {
+    $phone_number = $_POST["phone_number"];
+}
+
+/* email */
+if (empty($_POST["email"])) {
+    $errorMSG .= "<li>Email is required</li>";
+} else if (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
+    $errorMSG .= "<li>Invalid email format</li>";
+} else {
+    $email = $_POST["email"];
+}
+
+
+
+if (empty($errorMSG)) {
+    $msg = "name_first: " . $name_first . "name_second: " . $name_second . ", age:" . $age . ", Email: " . $email . ", phone_number:" . $phone_number;
+    echo json_encode(['code' => 200, 'msg' => $msg]);
+    exit;
+}
+
+
+echo json_encode(['code' => 404, 'msg' => $errorMSG]);

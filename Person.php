@@ -3,6 +3,7 @@
 
 class Person
 {
+    public $id;
     public $age;
     public $name_first;
     public $name_second;
