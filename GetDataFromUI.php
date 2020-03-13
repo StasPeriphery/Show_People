@@ -7,6 +7,7 @@ class GetDataFromUI
 
     private $errorMSG;
     private $person;
+    private $chose;
 
 
     public function __construct()
@@ -18,7 +19,13 @@ class GetDataFromUI
         $this->person->age = $this->GetAge();
         $this->person->phone_number = $this->GetPhoneNumber();
         $this->person->email = $this->GetEmail();
+        $this->chose = $this->GetChoice();
+    }
 
+
+    function GetCsvOrSQL()
+    {
+        return $this->chose;
     }
 
     function GetPerson()
@@ -35,6 +42,14 @@ class GetDataFromUI
         }
     }
 
+    function GetChoice()
+    {
+        if (empty($_POST["sqlCsv"])) {
+            $this->errorMSG = "<li>Name is required</li>";
+        } else {
+            return $_POST["sqlCsv"];
+        }
+    }
 
     function GetNameSecond()
     {

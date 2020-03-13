@@ -20,38 +20,26 @@ class CsvReader
     function SetData($data)
     {
         if (($h = fopen("test.csv", "a")) !== FALSE) {
-
-            $lastRow = $this->GetLastRow();
-
-            echo '</pre>';
-            if ($lastRow[EnumPersons::$ID] == "id") {
-                $data[EnumPersons::$ID]= 0;
-                echo "data = 0";
-                echo '<pre>';
-                var_dump($data);
-                echo '</pre>';
-            } else {
-                $data[EnumPersons::$ID] = ((int)($lastRow[EnumPersons::$ID])) + 1;
-                echo is_int((int)($lastRow[EnumPersons::$ID]));
-
-                echo "data";
-                echo '<pre>';
-                var_dump($data);
-                echo '</pre>';
-            }
-            echo "FINISH";
-            echo '<pre>';
-            var_dump($data);
-            echo '</pre>';
-
-
-
             if (fputcsv($h, $data) !== FALSE)
 
                 fclose($h);
             return $this->dataReturn;
         }
     }
+
+
+    function SetId($data)
+    {
+        $lastRow = $this->GetLastRow();
+        if ($lastRow[0] == NULL) {
+            $data[EnumPersons::$ID] = 0;
+
+        } else {
+            $data[EnumPersons::$ID] = ((int)($lastRow[EnumPersons::$ID])) + 1;
+        }
+        return $data;
+    }
+
 
     private function GetLastRow()
     {
@@ -60,6 +48,30 @@ class CsvReader
         $data = str_getcsv($last_row);
 
         return $data;
+    }
+
+    function deleteLineInFile($string)
+    {
+        $i = 0;
+        $array = array();
+        $resuleDelete = false;
+
+        $read = fopen('test.csv', "r");
+        while (!feof($read)) {
+            $array[$i] = fgets($read);
+            ++$i;
+        }
+        fclose($read);
+
+        $write = fopen('test.csv', "w");
+        foreach ($array as $a) {
+            if (!strstr($a, $string))
+                fwrite($write, $a);
+            else
+                $resuleDelete = true;
+        }
+        fclose($write);
+        return $resuleDelete;
     }
 
 
