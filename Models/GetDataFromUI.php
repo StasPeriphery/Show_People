@@ -10,13 +10,12 @@ class GetDataFromUI
     private $action;
     private $deleteEmail;
 
-
     public function __construct()
     {
 
     }
 
-     function InitDataPerson()
+    function InitDataPerson()
     {
         $this->person = new Person();
         $this->person->id = 0;
@@ -26,6 +25,7 @@ class GetDataFromUI
         $this->person->phone_number = $this->GetPhoneNumberFromUI();
         $this->person->email = $this->GetEmailFromUI();
         $this->chose = $this->GetChoiceFromUI();
+        $this->deleteEmail = $this->GetIdToDeleteUser();
     }
 
     function GetCsvOrSQL()

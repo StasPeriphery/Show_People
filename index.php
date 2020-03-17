@@ -52,10 +52,9 @@
 
 <?php
 include "table.php";
-
+include_once "Models/ConnectionBD.php"
 ?>
 
 </body>
 </html>
-
 
