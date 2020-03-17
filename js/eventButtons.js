@@ -1,6 +1,5 @@
 $(document).ready(function () {
-
-    $('#submit').click(function (e) {
+    $('#addUser').click(function (e) {
         e.preventDefault();
 
         var name_first = $("#name_first").val();
@@ -8,13 +7,12 @@ $(document).ready(function () {
         var age = $("#age").val();
         var phone_number = $("#phone_number").val();
         var email = $("#email").val();
-        var sqlCsv = $("#select").val();
-
-        alert(sqlCsv);
+        var sqlCsv = $("#select:checked").val();
+        alert("ADD USER");
 
         $.ajax({
             type: "POST",
-            url: "/SaveData.php",
+            url: "/Controllers/UsersController.php",
             dataType: "json",
             data: {
                 name_first: name_first,
@@ -22,13 +20,14 @@ $(document).ready(function () {
                 email: email,
                 age: age,
                 phone_number: phone_number,
-                sqlCsv: sqlCsv
+                sqlCsv: sqlCsv,
+                action: "AddUser"
             },
             success: function (data) {
                 alert(data);
 
                 if (data !== undefined) {
-                     alert(data);
+                    alert(data);
                     let strInsert = "<tr>";
 
                     for (let i = 0; i < data.length; ++i) {
@@ -39,35 +38,34 @@ $(document).ready(function () {
                     $('#allPeople tr:last').after(strInsert);
 
                 } else {
+                    alert("SOME SHIT ADD USER");
+
                     $(".display-error").html("<ul>" + data.msg + "</ul>");
                     $(".display-error").css("display", "block");
                 }
             }
         });
-
-
     });
 });
 
 $(document).ready(function () {
-    $('#showAllPeoples').click(function (e) {
+    $('#getAllUsers').click(function (e) {
         e.preventDefault();
-
-        //var name_first = $("#name_first").val();
-        var sqlCsv = $("#select").val();
+        alert("showAllPeople");
+        var sqlCsv = $("#select:checked").val();
 
         $.ajax({
             type: "POST",
-            url: "/ShowPeoples.php",
+            url: "/Controllers/UsersController.php",
             dataType: "json",
             data: {
+                action: "GetAllUsers",
                 sqlCsv: sqlCsv
             },
             success: function (data) {
-                // alert("GOOD");
 
                 if (data !== undefined) {
-                    // alert("code 200");
+                    alert("code 200");
                     let strInsert;
                     for (let i = 0; i < data.length; ++i) {
                         strInsert += "<tr>";
@@ -83,38 +81,39 @@ $(document).ready(function () {
                 }
             }
         });
-
-
     });
 });
-
 
 $(document).ready(function () {
     $('#delete').click(function (e) {
         e.preventDefault();
-
-        var emailDelete = $("#email_delete").val();
-        var sqlCsv = $("#select").val();
+        alert("delete");
+        var sqlCsv = $("#select:checked").val();
+        var emailDelete = $("#emailDelete").val();
 
         $.ajax({
             type: "POST",
-            url: "/Delete.php",
+            url: "/Controllers/UsersController.php",
             dataType: "json",
             data: {
+                sqlCsv: sqlCsv,
                 emailDelete: emailDelete,
-                sqlCsv: sqlCsv
+                action: "DeleteUser"
             },
             success: function (data) {
-                // alert("GOOD");
-
-                if (data !== undefined) {
-
-                } else {
-                    alert("SOME SHIT");
-                }
+                alert("Good delete");
             }
         });
+    });
+});
 
+$(document).ready(function () {
+    $.ajax({
+        type: 'POST',
+        url: '/table.php',
+        data: '',
+        success: function (comms) {
+        }
     });
 });
 

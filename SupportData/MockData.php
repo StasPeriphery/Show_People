@@ -1,6 +1,4 @@
 <?php
-//include "Constants.php";
-//include "PeopleData.php";
 
 class MockData
 {

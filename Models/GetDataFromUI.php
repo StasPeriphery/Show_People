@@ -1,6 +1,5 @@
 <?php
 
-include "Person.php";
 
 class GetDataFromUI
 {
@@ -8,20 +7,26 @@ class GetDataFromUI
     private $errorMSG;
     private $person;
     private $chose;
+    private $action;
+    private $deleteEmail;
 
 
     public function __construct()
     {
-        $this->person = new Person();
-        $this->person->id = 0;
-        $this->person->name_first = $this->GetNameFirst();
-        $this->person->name_second = $this->GetNameSecond();
-        $this->person->age = $this->GetAge();
-        $this->person->phone_number = $this->GetPhoneNumber();
-        $this->person->email = $this->GetEmail();
-        $this->chose = $this->GetChoice();
+
     }
 
+     function InitDataPerson()
+    {
+        $this->person = new Person();
+        $this->person->id = 0;
+        $this->person->name_first = $this->GetNameFirstFromUI();
+        $this->person->name_second = $this->GetNameSecondFromUI();
+        $this->person->age = $this->GetAgeFromUI();
+        $this->person->phone_number = $this->GetPhoneNumberFromUI();
+        $this->person->email = $this->GetEmailFromUI();
+        $this->chose = $this->GetChoiceFromUI();
+    }
 
     function GetCsvOrSQL()
     {
@@ -33,7 +38,30 @@ class GetDataFromUI
         return $this->person;
     }
 
-    function GetNameFirst()
+    function GetAction()
+    {
+        return $this->action;
+    }
+
+    private function GetIdToDeleteUser()
+    {
+        if (empty($_POST["emailDelete"])) {
+            $this->errorMSG = "<li>Name is required</li>";
+        } else {
+            return $_POST["emailDelete"];
+        }
+    }
+
+    function GetActionFromUI()
+    {
+        if (empty($_POST["action"])) {
+            $this->errorMSG = "<li>Name is required</li>";  // TODO ERROR.PHP CHANG
+        } else {
+            return $this->action = $_POST["action"];
+        }
+    }
+
+    private function GetNameFirstFromUI()
     {
         if (empty($_POST["name_first"])) {
             $this->errorMSG = "<li>Name is required</li>";
@@ -42,7 +70,7 @@ class GetDataFromUI
         }
     }
 
-    function GetChoice()
+    private function GetChoiceFromUI()
     {
         if (empty($_POST["sqlCsv"])) {
             $this->errorMSG = "<li>Name is required</li>";
@@ -51,7 +79,7 @@ class GetDataFromUI
         }
     }
 
-    function GetNameSecond()
+    private function GetNameSecondFromUI()
     {
         if (empty($_POST["name_second"])) {
             $this->errorMSG = "<li>Name is required</li>";
@@ -61,7 +89,7 @@ class GetDataFromUI
     }
 
 
-    function GetAge()
+    private function GetAgeFromUI()
     {
         if (empty($_POST["age"])) {
             $this->errorMSG .= "<li>Subject is required</li>";
@@ -71,7 +99,7 @@ class GetDataFromUI
 
     }
 
-    function GetPhoneNumber()
+    private function GetPhoneNumberFromUI()
     {
         if (empty($_POST["phone_number"])) {
             $this->errorMSG .= "<li>Subject is required</li>";
@@ -80,7 +108,7 @@ class GetDataFromUI
         }
     }
 
-    function GetEmail()
+    private function GetEmailFromUI()
     {
         if (empty($_POST["email"])) {
             $this->errorMSG .= "<li>Email is required</li>";

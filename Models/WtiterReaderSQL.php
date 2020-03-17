@@ -1,8 +1,5 @@
 <?php
 
-//include_once  "config.php";
-
-
 // TODO class enum
 // TODO singlton
 
@@ -41,17 +38,15 @@ class WtiterReaderSQL
 
     function SetData($data)
     {
-
-        $mysqli = mysqli($this->host, $this->user, $this->password, $this->database);
+        $mysqli = new mysqli($this->host, $this->user, $this->password, $this->database);
         $query = "INSERT INTO people VALUES(NULL,'$data[1]',' $data[2]', '$data[3]' , '$data[4]', '$data[5]', 2)"; // TODO EnumPersons
 
-        if ($mysqli === false)
-            die("ERROR: Could not connect. "
-                . $mysqli->connect_error);
-
-        if ($result = $mysqli->query($query))
-            $result->free();
-
+        if ($mysqli->connect_errno) {
+            echo "Failed to connect to MySQL: " . $mysqli->connect_error;
+        }
+        if (!$result = $mysqli->query($query)){
+            echo "SOME SHIT SET DATA IN WRITEREADERSQL";
+        }
         $mysqli->close();
 
     }

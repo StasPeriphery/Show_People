@@ -1,18 +1,17 @@
 <?php
 
-include "../Models/Person.php";
-include "../Models/CsvReader.php";
-include "../Parsers/PersonToArray.php";
-include "../SupportData/EnumPersons.php";
-include "../Models/WtiterReaderSQL.php";
 
+require "config.php";
 
 $getData = new GetDataFromUI();
-
-$getData->InitDataPerson();
 $person = $getData->GetPerson();
 $choice = $getData->GetCsvOrSQL();
 $writer = "";
+
+//echo "AFTER GetCsvOrSQL";       //TODO DELETE
+//echo '<pre>';
+//var_dump($choice);
+//echo '</pre>';
 
 if ($choice == "csv") {
     $writer = new CsvReader();
@@ -22,8 +21,18 @@ if ($choice == "csv") {
 
 $arrayDataPerson = PersonToArray::ConverPersonToArray($person);
 $writer->SetData($arrayDataPerson);
+
+
 $json_str = json_encode($arrayDataPerson);
 
 echo $json_str;
+
+/*echo '<pre>';
+var_dump($arrayDataPerson);
+echo '</pre>';
+
+echo '<pre>';
+var_dump($json_str);
+echo '</pre>';*/
 
 ?>
