@@ -1,6 +1,7 @@
 <?php
 
-class EnumPersons
+
+class EnumPersons // TODO const
 {
     public static $ID = 0;
     public static $NAME_FIRST = 2;

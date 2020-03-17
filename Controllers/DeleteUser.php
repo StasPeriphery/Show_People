@@ -1,6 +1,5 @@
 <?php
 
-include "CsvReader.php";
 
 
 $csvReader = new CsvReader();
@@ -11,13 +10,14 @@ $strDelete = "";
 if (isset($_POST["emailDelete"])) {
     $strDelete = $_POST["emailDelete"];
 } else {
-    echo "БАЛАЛАЙКА";
+    echo "БАЛАЛАЙКА DELETE";
     die;
 }
 
 
 $result = $csvReader->deleteLineInFile($strDelete);
 
+echo 'DELETE PHP';
 echo '<pre>';
 var_dump($result);
 echo '</pre>';

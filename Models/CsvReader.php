@@ -1,6 +1,5 @@
 <?php
 
-include "EnumPersons.php";
 
 class CsvReader
 {
@@ -19,6 +18,7 @@ class CsvReader
 
     function SetData($data)
     {
+        $data = $this->SetId($data);
         if (($h = fopen("test.csv", "a")) !== FALSE) {
             if (fputcsv($h, $data) !== FALSE)
 
@@ -28,12 +28,11 @@ class CsvReader
     }
 
 
-    function SetId($data)
+    private function SetId($data)
     {
         $lastRow = $this->GetLastRow();
         if ($lastRow[0] == NULL) {
             $data[EnumPersons::$ID] = 0;
-
         } else {
             $data[EnumPersons::$ID] = ((int)($lastRow[EnumPersons::$ID])) + 1;
         }
