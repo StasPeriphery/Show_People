@@ -11,9 +11,10 @@
     </tr>
 <?php
 
-include "Models\CsvReader.php";
+include "Models\UserCsvModel.php";
+include_once "configDB.php";
 
-$readerWriter = new CsvReader();
+$readerWriter = new UserCsvModel();
 
 $data = $readerWriter->GetData();
 
