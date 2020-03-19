@@ -1,28 +1,89 @@
 <?php
+include "Parsers/PersonToArray.php";
 
 
-include_once "../config.php";
+class UserController
+{
 
-$getData = new GetDataFromUI();
-$getData->InitDataPerson();
+    function __construct()
+    {
+    }
 
-$actionModel = new ActionModel();
-$actionModel->SetChoice($getData->GetChoice());
+    function Refresh($request)
+    {
+        return $this->GetAll($request);
+    }
 
-$jsonRes = null;
+    function GetPage($type_choice)
+    {
+        $userModel = null;
 
-switch ($getData->GetAction()) {
-    case ADD:
-        $jsonRes = $actionModel->Add($getData->GetPerson());
-        break;
-    case GET_ALL_USERS:
-        $jsonRes = $actionModel->GetAll();
-        break;
-    case DELETE_USER:
-        $jsonRes = $actionModel->Delete();
-        break;
+        switch ($type_choice) {
+            case CSV:
+                HelperInclude::LoadModel(CSV_INCLUDE);
+                $userModel = new UserCsvModel();
+                break;
+            case SQL:
+                HelperInclude::LoadModel(SQL_INCLUDE);
+                return $userModel = new UserSQLModel();
+                break;
+        }
+        $data = $userModel->GetData();
+        LoaderTpl::LoadTpl('index', $data);
+
+    }
+
+    function Add($request)
+    {
+        $userModel = null;
+        switch ($request["sqlCsv"]) {
+            case CSV:
+                HelperInclude::LoadModel(CSV_INCLUDE);
+                $userModel = new UserCsvModel();
+                break;
+            case SQL:
+                HelperInclude::LoadModel(SQL_INCLUDE);
+                $userModel = new UserSQLModel();
+                break;
+        }
+        return $userModel->SetData(PersonToArray::ConverPersonToArray($request));
+    }
+
+    function GetAll($request)
+    {
+        $userModel = null;
+
+        switch ($request["sqlCsv"]) {
+            case CSV:
+                HelperInclude::LoadModel(CSV_INCLUDE);
+                $userModel = new UserCsvModel();
+                break;
+            case SQL:
+                HelperInclude::LoadModel("ConnectionBD");
+                HelperInclude::LoadRoot("configDB");
+                HelperInclude::LoadModel(SQL_INCLUDE);
+                $userModel = new UserSQLModel();
+                break;
+        }
+        return $userModel->GetData();
+    }
+
+    function Delete($request)
+    {
+        $userModel = null;
+        switch ($request["sqlCsv"]) {
+            case CSV:
+                HelperInclude::LoadModel(CSV_INCLUDE);
+                $userModel = new UserCsvModel();
+                break;
+            case SQL:
+                HelperInclude::LoadModel(SQL_INCLUDE);
+                $userModel = new UserSQLModel($request);
+                break;
+        }
+
+        return $userModel->deleteLineInFile($request["emailDelete"]);
+
+    }
+
 }
-
-$jsonRes = json_encode($jsonRes);
-
-echo $jsonRes;

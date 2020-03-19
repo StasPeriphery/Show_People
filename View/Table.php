@@ -1,6 +1,6 @@
 <table id="allPeople">
 
-    <tr>
+    <tr class="NoDelete">
         <th>Id</th>
         <th>Age</th>
         <th>First name</th>
@@ -10,13 +10,6 @@
         <th>Id_status</th>
     </tr>
 <?php
-
-include "Models\UserCsvModel.php";
-include_once "configDB.php";
-
-$readerWriter = new UserCsvModel();
-
-$data = $readerWriter->GetData();
 
 if ($data) {
     $strInsert = "";

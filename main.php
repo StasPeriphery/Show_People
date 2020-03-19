@@ -1,23 +1,33 @@
 <?php
 
-include_once "../InitFile.php";
+include_once "Controllers/UserController.php";
+include_once "SupportData/Constants.php";
+include_once "SupportData/Constants.php";
+include_once "LoaderTpl.php";
 
-$Querydata = $_POST;
-$actionModel = new ActionModel();
-$actionModel->SetChoice($Querydata["sqlCsv"]);
+include "/HelperInclude.php";
+
+$request = $_POST;
+
+$user = new UserController($request);
 
 $jsonRes = null;
 
-switch ($Querydata["action"]) {
+
+switch ($request["action"]) {
     case ADD:
-        $jsonRes = $actionModel->Add($Querydata);
+        $jsonRes = $user->Add($request);
         break;
     case GET_ALL_USERS:
-        $jsonRes = $actionModel->GetAll();
+        $jsonRes = $user->GetAll($request);
         break;
     case DELETE_USER:
-        $jsonRes = $actionModel->Delete();
+        $jsonRes = $user->Delete($request);
         break;
+    case REFRESH:
+        $jsonRes = $user->Refresh($request);
+        break;
+
 }
 
 $jsonRes = json_encode($jsonRes);

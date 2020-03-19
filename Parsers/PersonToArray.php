@@ -1,7 +1,5 @@
 <?php
 
-
-
 class PersonToArray
 {
     private static $arr;
@@ -9,12 +7,12 @@ class PersonToArray
     static function ConverPersonToArray($person)
     {
         PersonToArray::$arr = array();
-        PersonToArray::$arr[EnumPersons::$ID] = $person->id;
-        PersonToArray::$arr[EnumPersons::$AGE] = (int)$person->age;
-        PersonToArray::$arr[EnumPersons::$NAME_FIRST] = $person->name_first;
-        PersonToArray::$arr[EnumPersons::$NAME_SECOND] = $person->name_second;
-        PersonToArray::$arr[EnumPersons::$PHONE_NUMBER] = $person->phone_number;
-        PersonToArray::$arr[EnumPersons::$EMAIL] = $person->email;
+        PersonToArray::$arr[ID] = $person["name_first"];
+        PersonToArray::$arr[AGE] = (int)$person["age"];
+        PersonToArray::$arr[NAME_FIRST] = $person["name_first"];
+        PersonToArray::$arr[NAME_SECOND] = $person["name_second"];
+        PersonToArray::$arr[PHONE_NUMBER] = $person["phone_number"];
+        PersonToArray::$arr[EMAIL] = $person["email"];
 
         return PersonToArray::$arr;
     }

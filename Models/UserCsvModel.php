@@ -1,7 +1,7 @@
 <?php
 
 
-class CsvReader
+class UserCsvModel
 {
     public $dataReturn;
 
@@ -23,7 +23,8 @@ class CsvReader
             if (fputcsv($h, $data) !== FALSE)
 
                 fclose($h);
-            return $this->dataReturn;
+
+            return $data;
         }
     }
 
@@ -32,9 +33,9 @@ class CsvReader
     {
         $lastRow = $this->GetLastRow();
         if ($lastRow[0] == NULL) {
-            $data[EnumPersons::$ID] = 0;
+            $data[ID] = 0;
         } else {
-            $data[EnumPersons::$ID] = ((int)($lastRow[EnumPersons::$ID])) + 1;
+            $data[ID] = ((int)($lastRow[ID])) + 1;
         }
         return $data;
     }
@@ -51,6 +52,10 @@ class CsvReader
 
     function deleteLineInFile($string)
     {
+        echo "<pre>";
+        var_dump($string);
+        echo "</pre>";
+
         $i = 0;
         $array = array();
         $resuleDelete = false;

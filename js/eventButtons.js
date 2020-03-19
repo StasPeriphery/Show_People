@@ -8,13 +8,14 @@ $(document).ready(function () {
         var phone_number = $("#phone_number").val();
         var email = $("#email").val();
         var sqlCsv = $("#select:checked").val();
-        alert("ADD USER");
+        // alert("ADD USER");
 
         $.ajax({
             type: "POST",
-            url: "/Controllers/UsersController.php",
+            url: "/main.php",
             dataType: "json",
             data: {
+                id: 0,
                 name_first: name_first,
                 name_second: name_second,
                 email: email,
@@ -24,12 +25,9 @@ $(document).ready(function () {
                 action: "AddUser"
             },
             success: function (data) {
-                alert(data);
-
+                alert (data);
                 if (data !== undefined) {
-                    alert(data);
                     let strInsert = "<tr>";
-
                     for (let i = 0; i < data.length; ++i) {
                         strInsert += `<td>${data[i]}</td>`;
                     }
@@ -46,17 +44,15 @@ $(document).ready(function () {
             }
         });
     });
-});
 
-$(document).ready(function () {
     $('#getAllUsers').click(function (e) {
         e.preventDefault();
-        alert("showAllPeople");
+        //alert("showAllPeople");
         var sqlCsv = $("#select:checked").val();
 
         $.ajax({
             type: "POST",
-            url: "/Controllers/UsersController.php",
+            url: "/main.php",
             dataType: "json",
             data: {
                 action: "GetAllUsers",
@@ -82,9 +78,7 @@ $(document).ready(function () {
             }
         });
     });
-});
 
-$(document).ready(function () {
     $('#delete').click(function (e) {
         e.preventDefault();
         alert("delete");
@@ -93,7 +87,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "POST",
-            url: "/Controllers/UsersController.php",
+            url: "/main.php",
             dataType: "json",
             data: {
                 sqlCsv: sqlCsv,
@@ -102,18 +96,45 @@ $(document).ready(function () {
             },
             success: function (data) {
                 alert("Good delete");
+
             }
         });
     });
-});
 
-$(document).ready(function () {
-    $.ajax({
-        type: 'POST',
-        url: '/table.php',
-        data: '',
-        success: function (comms) {
-        }
+
+    $('#refresh').click(function (e) {
+        e.preventDefault();
+        alert("refresh");
+        var emailDelete = $("#allPeople").find("tr:gt(0)").remove();
+        var sqlCsv = $("#select:checked").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/main.php",
+            dataType: "json",
+            data: {
+                sqlCsv: sqlCsv,
+                action: "Refresh"
+            },
+            success: function (data) {
+                alert("code 200");
+                if (data !== undefined) {
+                    let strInsert;
+                    for (let i = 0; i < data.length; ++i) {
+                        strInsert += "<tr>";
+                        for (let j = 0; j < data[i].length; ++j) {
+                            strInsert += `<td>${data[i][j]}</td>`;
+                        }
+                        strInsert += "</tr>";
+                    }
+                    $('#allPeople tr:last').after(strInsert);
+
+                } else {
+                    alert("SOME SHIT");
+                }
+
+            }
+        });
     });
 });
 

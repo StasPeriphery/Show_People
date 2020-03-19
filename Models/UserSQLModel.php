@@ -1,16 +1,8 @@
 <?php
 
-// TODO class enum
-// TODO singlton
 
-include "../Models/ConnectionBD.php";
-
-class WtiterReaderSQL
+class UserSQLModel
 {
-    private $host = 'localhost';
-    private $database = 'PeopleDB';
-    private $user = 'root';
-    private $password = '';
 
     function GetData()
     {
@@ -30,23 +22,34 @@ class WtiterReaderSQL
             } else {
                 echo "No matching records are found.";
             }
-
         }
-
         return $resultArray;
     }
 
     function SetData($data)
     {
-        $query = "INSERT INTO people VALUES(NULL,'$data[1]',' $data[2]', '$data[3]' , '$data[4]', '$data[5]', 2)"; // TODO EnumPersons
+        $query = "INSERT INTO people VALUES(NULL, '$data[AGE]', '$data[NAME_FIRST]',' $data[NAME_SECOND]', '$data[PHONE_NUMBER]' , '$data[EMAIL]', 2)"; // TODO EnumPersons
 
         if (ConnectionBD::GetConnect()->connect_errno) {
             echo "Failed to connect to MySQL: " . ConnectionBD::GetConnect()->connect_error;
         }
+        $result = null;
+
         if (!$result = ConnectionBD::GetConnect()->query($query)) {
             echo "SOME SHIT SET DATA IN WRITEREADERSQL";
         }
 
+        $id =  mysqli_insert_id(ConnectionBD::GetConnect());
+        $data[ID] = $id;
+
+
+
+        return $data;
+    }
+
+    function deleteLineInFile($string)
+    {
+        return true;
     }
 
 
